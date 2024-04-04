@@ -15,6 +15,12 @@ public partial class SchemaWriter : IDisposable
         _indentedTextWriter.WriteLine();
     }
 
+    public void Dispose()
+    {
+        _stringWriter.Dispose();
+        _indentedTextWriter.Dispose();
+    }
+
     public IDisposable DeclarePartialClass(INamedTypeSymbol namedType)
     {
         _indentedTextWriter.WriteLine($"namespace {namedType.ContainingNamespace.ToDisplayString()};");
@@ -60,37 +66,8 @@ public partial class SchemaWriter : IDisposable
         _indentedTextWriter.Write("\"");
     }
 
-    public void WriteNull()
-    {
-        _indentedTextWriter.Write("null");
-    }
-
     public SourceText ToSourceText()
     {
         return SourceText.From(_stringWriter.ToString(), Encoding.UTF8);
-    }
-
-    public void Dispose()
-    {
-        _stringWriter.Dispose();
-        _indentedTextWriter.Dispose();
-    }
-
-    private class BracketedBlockWriter : IDisposable
-    {
-        private readonly IndentedTextWriter _indentedTextWriter;
-        private readonly char _close;
-
-        public BracketedBlockWriter(IndentedTextWriter indentedTextWriter, char open, char close)
-        {
-            _indentedTextWriter = indentedTextWriter;
-            _close = close;
-            _indentedTextWriter.Write(open);
-        }
-
-        public void Dispose()
-        {
-            _indentedTextWriter.Write(_close);
-        }
     }
 }

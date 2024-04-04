@@ -1,6 +1,4 @@
 ﻿using System.Text;
-using Enhanced.NRedisStack.Annotation;
-using Enhanced.NRedisStack.SourceGenerators.PropertyWriters;
 using Microsoft.CodeAnalysis;
 
 namespace Enhanced.NRedisStack.SourceGenerators;
@@ -77,7 +75,7 @@ internal class SchemaMemberVisitor : SymbolVisitor
 
     private void HandleTextProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-        var propertyWriter = new PropertyWriter(_variable, _path.ToString(), RedisPropertyType.Text);
+        var propertyWriter = new PropertyWriter(_variable, _path.ToString(), "AddTextField");
         
         if (attribute is not null)
         {

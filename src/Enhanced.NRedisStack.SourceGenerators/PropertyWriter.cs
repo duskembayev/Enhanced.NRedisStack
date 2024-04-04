@@ -4,15 +4,15 @@ public class PropertyWriter
 {
     private readonly string _variable;
     private readonly string _path;
-    private readonly RedisPropertyType _type;
+    private readonly string _method;
     private readonly List<(string name, string? value)> _arguments;
     private string? _alias;
 
-    public PropertyWriter(string variable, string path, RedisPropertyType type)
+    public PropertyWriter(string variable, string path, string method)
     {
         _variable = variable;
         _path = path;
-        _type = type;
+        _method = method;
         _arguments = new List<(string name, string? value)>();
     }
 
@@ -30,13 +30,7 @@ public class PropertyWriter
     {
         writer.Write(_variable);
         writer.Write(".");
-        writer.Write(_type switch
-        {
-            RedisPropertyType.Text => "AddTextField",
-            RedisPropertyType.Numeric => "AddNumericField",
-            RedisPropertyType.Tag => "AddTagField",
-            _ => throw new InvalidOperationException()
-        });
+        writer.Write(_method);
 
         using (writer.DeclareBracketedBlock())
         {

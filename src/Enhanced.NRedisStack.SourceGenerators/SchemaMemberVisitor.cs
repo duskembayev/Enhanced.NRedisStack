@@ -65,13 +65,7 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
 
     private void HandleTagProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-    }
-
-    private void HandleNumericProperty(IPropertySymbol symbol, AttributeData? attribute)
-    {
-        _writer.Write(_variable);
-        _writer.Write(".AddNumericField(new FieldName(\"");
-        _writer.Write($"{_variable}.AddNumericField(new FieldName(\"{_path}\", \"\"));");
+        
     }
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)

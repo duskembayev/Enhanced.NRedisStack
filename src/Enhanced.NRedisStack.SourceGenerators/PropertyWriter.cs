@@ -5,7 +5,7 @@ public class PropertyWriter
     private readonly string _variable;
     private readonly string _path;
     private readonly string _method;
-    private readonly List<(string name, string? value)> _arguments;
+    private readonly List<(string name, string value)> _arguments;
     private string? _alias;
 
     public PropertyWriter(string variable, string path, string method)
@@ -13,7 +13,7 @@ public class PropertyWriter
         _variable = variable;
         _path = path;
         _method = method;
-        _arguments = new List<(string name, string? value)>();
+        _arguments = new List<(string name, string value)>();
     }
 
     public void SetAlias(string prefix, string? alias)
@@ -27,19 +27,19 @@ public class PropertyWriter
         _alias = prefix + alias;
     }
 
-    public void AddArgument(string name, string? value)
-    {
-        _arguments.Add((name, value));
-    }
-
     public void AddBoolArgument(string name, bool value)
     {
-        AddArgument(name, value ? "true" : "false");
+        _arguments.Add((name, value ? "true" : "false"));
     }
 
     public void AddDoubleArgument(string name, double value)
     {
-        AddArgument(name, value.ToString("F", CultureInfo.InvariantCulture));
+        _arguments.Add((name, value.ToString("F", CultureInfo.InvariantCulture)));
+    }
+
+    public void AddStringArgument(string name, string? value)
+    {
+        _arguments.Add((name, value is null ? "null" : $"\"{value}\""));
     }
 
     public void Write(SchemaWriter writer)
@@ -68,11 +68,7 @@ public class PropertyWriter
                 writer.Write(", ");
                 writer.Write(name);
                 writer.Write(": ");
-
-                if (value is null)
-                    writer.WriteNull();
-                else
-                    writer.WriteQuoted(value);
+                writer.Write(value);
             }
         }
 

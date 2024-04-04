@@ -41,7 +41,7 @@ internal partial class SchemaMemberVisitor
                     }
                     case nameof(RedisTagAttribute.Separator) when argument.Value.Value is string separator:
                     {
-                        propertyWriter.AddArgument("separator", separator);
+                        propertyWriter.AddStringArgument("separator", separator);
                         break;
                     }
                     case nameof(RedisTagAttribute.CaseSensitive) when argument.Value.Value is bool caseSensitive:
@@ -62,8 +62,8 @@ internal partial class SchemaMemberVisitor
                     }
                 }
             }
-
-            propertyWriter.Write(_writer);
         }
+
+        propertyWriter.Write(_writer);
     }
 }

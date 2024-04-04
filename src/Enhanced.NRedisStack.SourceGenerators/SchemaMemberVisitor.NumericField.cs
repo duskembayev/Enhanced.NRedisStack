@@ -42,8 +42,8 @@ internal partial class SchemaMemberVisitor
                     }
                 }
             }
-
-            propertyWriter.Write(_writer);
         }
+
+        propertyWriter.Write(_writer);
     }
 }

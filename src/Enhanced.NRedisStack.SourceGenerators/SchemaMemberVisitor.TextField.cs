@@ -46,7 +46,7 @@ internal partial class SchemaMemberVisitor
                     }
                     case nameof(RedisTextAttribute.Phonetic) when argument.Value.Value is string phonetic:
                     {
-                        propertyWriter.AddArgument("phonetic", phonetic);
+                        propertyWriter.AddStringArgument("phonetic", phonetic);
                         break;
                     }
                     case nameof(RedisTextAttribute.NoIndex) when argument.Value.Value is bool noIndex:

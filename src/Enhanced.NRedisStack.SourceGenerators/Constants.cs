@@ -5,6 +5,7 @@ namespace Enhanced.NRedisStack.SourceGenerators;
 public static class Constants
 {
     public const string AnnotationNamespace = "Enhanced.NRedisStack.Annotation";
+    public const string GeneratedSchemaAttributeFullName = AnnotationNamespace + "." + nameof(GeneratedSchemaAttribute);
     public const string RedisIgnoreAttributeFullName = AnnotationNamespace + "." + nameof(RedisIgnoreAttribute);
     public const string RedisNumericAttributeFullName = AnnotationNamespace + "." + nameof(RedisNumericAttribute);
     public const string RedisObjectAttributeFullName = AnnotationNamespace + "." + nameof(RedisObjectAttribute);

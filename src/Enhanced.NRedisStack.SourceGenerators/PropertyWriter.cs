@@ -50,7 +50,7 @@ public class PropertyWriter
 
         using (writer.DeclareBracketedBlock())
         {
-            writer.Write("new Field");
+            writer.Write("new FieldName");
 
             using (writer.DeclareBracketedBlock())
             {
@@ -76,6 +76,6 @@ public class PropertyWriter
             }
         }
 
-        writer.Write(";");
+        writer.WriteLine(";");
     }
 }

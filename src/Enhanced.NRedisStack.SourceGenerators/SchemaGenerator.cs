@@ -5,8 +5,6 @@ namespace Enhanced.NRedisStack.SourceGenerators;
 [Generator(LanguageNames.CSharp)]
 public class SchemaGenerator : IIncrementalGenerator
 {
-    private const string AttributeTypeName = "GeneratedSchemaAttribute";
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Filter abstract methods annotated with the [SchemaOf] attribute. Only filtered Syntax Nodes can trigger code generation.
@@ -33,7 +31,9 @@ public class SchemaGenerator : IIncrementalGenerator
             if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
                 continue;
 
-            if (attributeSymbol.ContainingType.Name != AttributeTypeName)
+            var attributeType = attributeSymbol.ContainingType.ToDisplayString();
+
+            if (attributeType != Constants.GeneratedSchemaAttributeFullName)
                 continue;
 
             return (methodDeclarationSyntax, true);
@@ -76,21 +76,23 @@ public class SchemaGenerator : IIncrementalGenerator
             }
 
             var attributeValue = methodSymbol
-                .GetAttributes().First(data => data.AttributeClass?.Name == AttributeTypeName)
-                .ConstructorArguments.First();
-            
+                .GetAttributes()
+                .First(data => data.AttributeClass?.ToDisplayString() == Constants.GeneratedSchemaAttributeFullName)
+                .ConstructorArguments
+                .First();
+
             if (attributeValue is not {Kind: TypedConstantKind.Type})
             {
                 // Log error
                 continue;
             }
-            
+
             if (attributeValue.Value is not INamedTypeSymbol modelSymbol)
             {
                 // Log error
                 continue;
             }
-            
+
             var sourceText = GenerateCore(methodSymbol, modelSymbol);
             var sourceFileName = $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}.g.cs";
 
@@ -101,7 +103,7 @@ public class SchemaGenerator : IIncrementalGenerator
     private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol)
     {
         using var writer = new SchemaWriter();
-        
+
         using (writer.DeclarePartialClass(methodSymbol.ContainingType))
         using (writer.DeclarePartialMethod(methodSymbol))
         {

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Enhanced.NRedisStack.SourceGenerators;
+﻿namespace Enhanced.NRedisStack.SourceGenerators;
 
 public class PropertyWriter
 {

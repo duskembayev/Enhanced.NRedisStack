@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
-using Enhanced.NRedisStack.Annotation;
-using Microsoft.CodeAnalysis;
+﻿using Enhanced.NRedisStack.Annotation;
 
 namespace Enhanced.NRedisStack.SourceGenerators;
 
 internal partial class SchemaMemberVisitor
 {
-    private void HandleNumericProperty(IPropertySymbol symbol, AttributeData? attribute)
+    private void HandleNumericProperty(IPropertySymbol _, AttributeData? attribute)
     {
         // https://github.com/redis/NRedisStack/blob/03162ee3a68e01db0c420786f7e15c98aceeb7a3/src/NRedisStack/Search/Schema.cs#L382
         var propertyWriter = new PropertyWriter(_variable, _path.ToString(), "AddNumericField");

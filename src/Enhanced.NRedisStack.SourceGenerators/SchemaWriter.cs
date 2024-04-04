@@ -1,9 +1,4 @@
-﻿using System.CodeDom.Compiler;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-
-namespace Enhanced.NRedisStack.SourceGenerators;
+﻿namespace Enhanced.NRedisStack.SourceGenerators;
 
 public partial class SchemaWriter : IDisposable
 {

@@ -1,10 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-using Enhanced.NRedisStack.Annotation;
-using Microsoft.CodeAnalysis;
-
-namespace Enhanced.NRedisStack.SourceGenerators;
+﻿namespace Enhanced.NRedisStack.SourceGenerators;
 
 internal partial class SchemaMemberVisitor : SymbolVisitor
 {

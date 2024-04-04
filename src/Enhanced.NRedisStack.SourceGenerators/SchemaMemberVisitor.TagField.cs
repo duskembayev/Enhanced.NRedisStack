@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Enhanced.NRedisStack.Annotation;
-using Microsoft.CodeAnalysis;
+﻿using Enhanced.NRedisStack.Annotation;
 
 namespace Enhanced.NRedisStack.SourceGenerators;
 

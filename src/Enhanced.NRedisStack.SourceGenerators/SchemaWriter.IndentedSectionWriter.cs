@@ -1,6 +1,4 @@
-﻿using System.CodeDom.Compiler;
-
-namespace Enhanced.NRedisStack.SourceGenerators;
+﻿namespace Enhanced.NRedisStack.SourceGenerators;
 
 public partial class SchemaWriter
 {

@@ -1,7 +1,4 @@
-﻿using System.Collections.Immutable;
-using Microsoft.CodeAnalysis;
-
-namespace Enhanced.NRedisStack.SourceGenerators;
+﻿namespace Enhanced.NRedisStack.SourceGenerators;
 
 public static class PropertySymbolExtensions
 {

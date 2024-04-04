@@ -29,6 +29,10 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             return;
 
         var (type, attribute) = symbol.ToRedisProperty();
+        
+        if (type == RedisPropertyType.Ignore)
+            return;
+        
         var name = symbol.GetRedisName(attribute);
 
         _path.Append('.').Append(name);

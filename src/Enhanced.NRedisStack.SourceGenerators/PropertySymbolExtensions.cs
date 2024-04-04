@@ -45,12 +45,16 @@ public static class PropertySymbolExtensions
             var attrTypeName = attr.AttributeClass?.ToDisplayString();
             var attrRedisType = attrTypeName switch
             {
-                "Enhanced.NRedisStack.Annotation.RedisObjectAttribute" => RedisPropertyType.Object,
                 "Enhanced.NRedisStack.Annotation.RedisNumericAttribute" => RedisPropertyType.Numeric,
                 "Enhanced.NRedisStack.Annotation.RedisTextAttribute" => RedisPropertyType.Text,
                 "Enhanced.NRedisStack.Annotation.RedisTagAttribute" => RedisPropertyType.Tag,
+                "Enhanced.NRedisStack.Annotation.RedisObjectAttribute" => RedisPropertyType.Object,
+                "Enhanced.NRedisStack.Annotation.RedisIgnoreAttribute" => RedisPropertyType.Ignore,
                 _ => RedisPropertyType.Unknown
             };
+            
+            if (attrRedisType is RedisPropertyType.Unknown)
+                continue;
 
             if (resultAttribute is not null)
             {

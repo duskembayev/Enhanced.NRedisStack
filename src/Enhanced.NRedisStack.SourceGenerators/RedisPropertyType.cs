@@ -3,6 +3,7 @@
 public enum RedisPropertyType
 {
     Unknown,
+    Ignore,
     Object,
 
     Text,

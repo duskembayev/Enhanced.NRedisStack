@@ -1,9 +1,12 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.Text;
+using Enhanced.NRedisStack.Annotation;
 using Microsoft.CodeAnalysis;
 
 namespace Enhanced.NRedisStack.SourceGenerators;
 
-internal class SchemaMemberVisitor : SymbolVisitor
+internal partial class SchemaMemberVisitor : SymbolVisitor
 {
     private readonly string _variable;
     private readonly SchemaWriter _writer;
@@ -35,7 +38,6 @@ internal class SchemaMemberVisitor : SymbolVisitor
         var name = symbol.GetRedisName(attribute);
 
         _path.Append('.').Append(name);
-        
 
         switch (type)
         {
@@ -57,13 +59,12 @@ internal class SchemaMemberVisitor : SymbolVisitor
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
         _path.Remove(_path.Length - name.Length - 1, name.Length + 1);
     }
 
     private void HandleTagProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-        
     }
 
     private void HandleNumericProperty(IPropertySymbol symbol, AttributeData? attribute)
@@ -71,23 +72,6 @@ internal class SchemaMemberVisitor : SymbolVisitor
         _writer.Write(_variable);
         _writer.Write(".AddNumericField(new FieldName(\"");
         _writer.Write($"{_variable}.AddNumericField(new FieldName(\"{_path}\", \"\"));");
-    }
-
-    private void HandleTextProperty(IPropertySymbol symbol, AttributeData? attribute)
-    {
-        var propertyWriter = new PropertyWriter(_variable, _path.ToString(), "AddTextField");
-        
-        if (attribute is not null)
-        {
-            var alias = attribute.NamedArguments
-                .FirstOrDefault(x => x.Key == "Alias")
-                .Value;
-
-            if (alias.Value is string aliasValue && !string.IsNullOrEmpty(aliasValue))
-                propertyWriter.SetAlias(aliasValue);
-        }
-        
-        propertyWriter.Write(_writer);
     }
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)

@@ -16,5 +16,8 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Include="..\Enhanced.NRedisStack.Annotation\*.cs" LinkBase="Annotation" />
+    </ItemGroup>
 
 </Project>

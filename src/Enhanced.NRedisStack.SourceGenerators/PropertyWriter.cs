@@ -1,4 +1,6 @@
-﻿namespace Enhanced.NRedisStack.SourceGenerators;
+﻿using System.Globalization;
+
+namespace Enhanced.NRedisStack.SourceGenerators;
 
 public class PropertyWriter
 {
@@ -24,6 +26,16 @@ public class PropertyWriter
     public void AddArgument(string name, string? value)
     {
         _arguments.Add((name, value));
+    }
+
+    public void AddBoolArgument(string name, bool value)
+    {
+        AddArgument(name, value ? "true" : "false");
+    }
+
+    public void AddDoubleArgument(string name, double value)
+    {
+        AddArgument(name, value.ToString("F", CultureInfo.InvariantCulture));
     }
 
     public void Write(SchemaWriter writer)

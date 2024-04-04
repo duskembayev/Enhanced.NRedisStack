@@ -63,11 +63,6 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
         _path.Remove(_path.Length - name.Length - 1, name.Length + 1);
     }
 
-    private void HandleTagProperty(IPropertySymbol symbol, AttributeData? attribute)
-    {
-        
-    }
-
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
         throw new NotImplementedException();

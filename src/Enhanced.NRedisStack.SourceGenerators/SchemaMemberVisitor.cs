@@ -29,10 +29,10 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             return;
 
         var (type, attribute) = symbol.ToRedisProperty();
-        
+
         if (type == RedisPropertyType.Ignore)
             return;
-        
+
         var name = symbol.GetRedisName(attribute);
 
         _path.Append('.').Append(name);
@@ -63,11 +63,12 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-        throw new NotImplementedException();
+        symbol.Type.Accept(this);
     }
 
     private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-        throw new NotImplementedException();
+        // TODO report error
+        Debug.Fail("Unknown property type");
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Enhanced.NRedisStack.SourceGenerators;
+﻿using static Enhanced.NRedisStack.SourceGenerators.Constants;
+
+namespace Enhanced.NRedisStack.SourceGenerators;
 
 public static class PropertySymbolExtensions
 {
@@ -45,11 +47,11 @@ public static class PropertySymbolExtensions
             var attrTypeName = attr.AttributeClass?.ToDisplayString();
             var attrRedisType = attrTypeName switch
             {
-                "Enhanced.NRedisStack.Annotation.RedisNumericAttribute" => RedisPropertyType.Numeric,
-                "Enhanced.NRedisStack.Annotation.RedisTextAttribute" => RedisPropertyType.Text,
-                "Enhanced.NRedisStack.Annotation.RedisTagAttribute" => RedisPropertyType.Tag,
-                "Enhanced.NRedisStack.Annotation.RedisObjectAttribute" => RedisPropertyType.Object,
-                "Enhanced.NRedisStack.Annotation.RedisIgnoreAttribute" => RedisPropertyType.Ignore,
+                RedisNumericAttributeFullName => RedisPropertyType.Numeric,
+                RedisTextAttributeFullName => RedisPropertyType.Text,
+                RedisTagAttributeFullName => RedisPropertyType.Tag,
+                RedisObjectAttributeFullName => RedisPropertyType.Object,
+                RedisIgnoreAttributeFullName => RedisPropertyType.Ignore,
                 _ => RedisPropertyType.Unknown
             };
             

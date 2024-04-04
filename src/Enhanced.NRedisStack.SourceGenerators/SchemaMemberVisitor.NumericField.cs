@@ -19,6 +19,11 @@ internal partial class SchemaMemberVisitor
                     {
                         break;
                     }
+                    case nameof(RedisNumericAttribute.Alias) when argument.Value.Value is null:
+                    {
+                        propertyWriter.SetAlias(_aliasPrefix, null);
+                        break;
+                    }
                     case nameof(RedisNumericAttribute.Alias) when argument.Value.Value is string alias:
                     {
                         propertyWriter.SetAlias(_aliasPrefix, alias);

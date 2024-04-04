@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Include="..\Enhanced.NRedisStack.Annotation\**\*.cs" LinkBase="Annotation" />
+      <Compile Include="..\Enhanced.NRedisStack.Annotation\*.cs" LinkBase="Annotation" />
     </ItemGroup>
 
 </Project>

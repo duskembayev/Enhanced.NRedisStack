@@ -7,7 +7,7 @@ internal partial class SchemaMemberVisitor
     private void HandleTagProperty(IPropertySymbol _, AttributeData? attribute)
     {
         // https://github.com/redis/NRedisStack/blob/03162ee3a68e01db0c420786f7e15c98aceeb7a3/src/NRedisStack/Search/Schema.cs#L413
-        var propertyWriter = new PropertyWriter(_variable, _path.ToString(), "AddTagField");
+        var propertyWriter = new PropertyWriter(_variable, _path, "AddTagField");
 
         if (attribute is not null)
         {
@@ -21,7 +21,7 @@ internal partial class SchemaMemberVisitor
                     }
                     case nameof(RedisTagAttribute.Alias) when argument.Value.Value is string alias:
                     {
-                        propertyWriter.SetAlias(alias);
+                        propertyWriter.SetAlias(_aliasPrefix, alias);
                         break;
                     }
                     case nameof(RedisTagAttribute.Sortable) when argument.Value.Value is bool sortable:

@@ -16,9 +16,15 @@ public class PropertyWriter
         _arguments = new List<(string name, string? value)>();
     }
 
-    public void SetAlias(string? alias)
+    public void SetAlias(string prefix, string? alias)
     {
-        _alias = alias;
+        if (string.IsNullOrEmpty(alias))
+        {
+            _alias = null;
+            return;
+        }
+
+        _alias = prefix + alias;
     }
 
     public void AddArgument(string name, string? value)

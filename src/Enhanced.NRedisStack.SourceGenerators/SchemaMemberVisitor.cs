@@ -1,17 +1,21 @@
-﻿namespace Enhanced.NRedisStack.SourceGenerators;
+﻿using Enhanced.NRedisStack.Annotation;
+
+namespace Enhanced.NRedisStack.SourceGenerators;
 
 internal partial class SchemaMemberVisitor : SymbolVisitor
 {
     private readonly string _variable;
     private readonly SchemaWriter _writer;
-    private readonly StringBuilder _path;
+    private string _path;
+    private string _aliasPrefix;
 
     public SchemaMemberVisitor(string variable, SchemaWriter writer)
     {
         _variable = variable;
         _writer = writer;
 
-        _path = new StringBuilder("$");
+        _path = "$";
+        _aliasPrefix = string.Empty;
     }
 
     public override void VisitNamedType(INamedTypeSymbol symbol)
@@ -34,8 +38,7 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             return;
 
         var name = symbol.GetRedisName(attribute);
-
-        _path.Append('.').Append(name);
+        _path = string.Concat(_path, ".", name);
 
         switch (type)
         {
@@ -58,12 +61,20 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
                 throw new ArgumentOutOfRangeException();
         }
 
-        _path.Remove(_path.Length - name.Length - 1, name.Length + 1);
+        _path = _path.Substring(0, _path.Length - name.Length - 1);
     }
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
+        var aliasSubPrefix = attribute?.GetNamedArgumentValue<string>(nameof(RedisObjectAttribute.AliasPrefix));
+
+        if (!string.IsNullOrEmpty(aliasSubPrefix))
+            _aliasPrefix = string.Concat(_aliasPrefix, aliasSubPrefix);
+        
         symbol.Type.Accept(this);
+        
+        if (!string.IsNullOrEmpty(aliasSubPrefix))
+            _aliasPrefix = _aliasPrefix.Substring(0, _aliasPrefix.Length - aliasSubPrefix!.Length);
     }
 
     private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? attribute)

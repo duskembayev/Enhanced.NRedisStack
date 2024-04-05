@@ -16,29 +16,29 @@ internal partial class SchemaMemberVisitor
                 switch (argument.Key)
                 {
                     case nameof(RedisNumericAttribute.Name):
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
                     case nameof(RedisNumericAttribute.Alias) when argument.Value.Value is null:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, null);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, null);
+                            break;
+                        }
                     case nameof(RedisNumericAttribute.Alias) when argument.Value.Value is string alias:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, alias);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, alias);
+                            break;
+                        }
                     case nameof(RedisNumericAttribute.Sortable) when argument.Value.Value is bool sortable:
-                    {
-                        propertyWriter.AddBoolArgument("sortable", sortable);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("sortable", sortable);
+                            break;
+                        }
                     case nameof(RedisNumericAttribute.NoIndex) when argument.Value.Value is bool noIndex:
-                    {
-                        propertyWriter.AddBoolArgument("noIndex", noIndex);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("noIndex", noIndex);
+                            break;
+                        }
                 }
             }
         }

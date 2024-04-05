@@ -16,54 +16,54 @@ internal partial class SchemaMemberVisitor
                 switch (argument.Key)
                 {
                     case nameof(RedisTextAttribute.Name):
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Alias) when argument.Value.Value is null:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, null);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, null);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Alias) when argument.Value.Value is string alias:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, alias);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, alias);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Weight) when argument.Value.Value is double weight:
-                    {
-                        propertyWriter.AddDoubleArgument("weight", weight);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddDoubleArgument("weight", weight);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Sortable) when argument.Value.Value is bool sortable:
-                    {
-                        propertyWriter.AddBoolArgument("sortable", sortable);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("sortable", sortable);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Unf) when argument.Value.Value is bool unf:
-                    {
-                        propertyWriter.AddBoolArgument("unf", unf);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("unf", unf);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.NoStem) when argument.Value.Value is bool noStem:
-                    {
-                        propertyWriter.AddBoolArgument("noStem", noStem);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("noStem", noStem);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.Phonetic) when argument.Value.Value is string phonetic:
-                    {
-                        propertyWriter.AddStringArgument("phonetic", phonetic);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddStringArgument("phonetic", phonetic);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.NoIndex) when argument.Value.Value is bool noIndex:
-                    {
-                        propertyWriter.AddBoolArgument("noIndex", noIndex);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("noIndex", noIndex);
+                            break;
+                        }
                     case nameof(RedisTextAttribute.WithSuffixTrie) when argument.Value.Value is bool withSuffixTrie:
-                    {
-                        propertyWriter.AddBoolArgument("withSuffixTrie", withSuffixTrie);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("withSuffixTrie", withSuffixTrie);
+                            break;
+                        }
                 }
             }
         }

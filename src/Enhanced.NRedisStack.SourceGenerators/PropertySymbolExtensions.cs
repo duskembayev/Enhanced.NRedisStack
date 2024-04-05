@@ -26,16 +26,16 @@ public static class PropertySymbolExtensions
             .Value;
 
         if (name?.Value is string redisName && !string.IsNullOrEmpty(redisName))
+        {
             return redisName;
+        }
 
         return property.Name;
     }
 
-    public static RedisPropertyInfo ToRedisProperty(this IPropertySymbol property)
-    {
-        return property.GetAttributes().ResolveRedisPropertyFromAttributes()
-               ?? new RedisPropertyInfo(property.Type.ToRedisType(), null);
-    }
+    public static RedisPropertyInfo ToRedisProperty(this IPropertySymbol property) =>
+        property.GetAttributes().ResolveRedisPropertyFromAttributes()
+        ?? new RedisPropertyInfo(property.Type.ToRedisType(), null);
 
     private static RedisPropertyInfo? ResolveRedisPropertyFromAttributes(this IEnumerable<AttributeData> attributes)
     {
@@ -54,9 +54,11 @@ public static class PropertySymbolExtensions
                 RedisIgnoreAttributeFullName => RedisPropertyType.Ignore,
                 _ => RedisPropertyType.Unknown
             };
-            
+
             if (attrRedisType is RedisPropertyType.Unknown)
+            {
                 continue;
+            }
 
             if (resultAttribute is not null)
             {
@@ -69,7 +71,9 @@ public static class PropertySymbolExtensions
         }
 
         if (resultAttribute is null)
+        {
             return null;
+        }
 
         return (resultType, resultAttribute);
     }
@@ -77,16 +81,24 @@ public static class PropertySymbolExtensions
     private static RedisPropertyType ToRedisType(this ITypeSymbol type)
     {
         if (type is {SpecialType: SpecialType.None, IsReferenceType: true})
+        {
             return RedisPropertyType.Object;
+        }
 
         if (NumericSpecialTypes.Contains(type.SpecialType))
+        {
             return RedisPropertyType.Numeric;
+        }
 
         if (TextSpecialTypes.Contains(type.SpecialType))
+        {
             return RedisPropertyType.Text;
+        }
 
         if (TagSpecialTypes.Contains(type.SpecialType))
+        {
             return RedisPropertyType.Tag;
+        }
 
         return RedisPropertyType.Unknown;
     }

@@ -2,10 +2,10 @@
 
 public class PropertyWriter
 {
-    private readonly string _variable;
-    private readonly string _path;
-    private readonly string _method;
     private readonly List<(string name, string value)> _arguments;
+    private readonly string _method;
+    private readonly string _path;
+    private readonly string _variable;
     private string? _alias;
 
     public PropertyWriter(string variable, string path, string method)
@@ -27,20 +27,13 @@ public class PropertyWriter
         _alias = prefix + alias;
     }
 
-    public void AddBoolArgument(string name, bool value)
-    {
-        _arguments.Add((name, value ? "true" : "false"));
-    }
+    public void AddBoolArgument(string name, bool value) => _arguments.Add((name, value ? "true" : "false"));
 
-    public void AddDoubleArgument(string name, double value)
-    {
+    public void AddDoubleArgument(string name, double value) =>
         _arguments.Add((name, value.ToString("F", CultureInfo.InvariantCulture)));
-    }
 
-    public void AddStringArgument(string name, string? value)
-    {
+    public void AddStringArgument(string name, string? value) =>
         _arguments.Add((name, value is null ? "null" : $"\"{value}\""));
-    }
 
     public void Write(SchemaWriter writer)
     {

@@ -4,11 +4,11 @@ namespace Enhanced.NRedisStack.SourceGenerators;
 
 internal partial class SchemaMemberVisitor : SymbolVisitor
 {
+    private readonly SourceProductionContext _context;
     private readonly string _variable;
     private readonly SchemaWriter _writer;
-    private readonly SourceProductionContext _context;
-    private string _path;
     private string _aliasPrefix;
+    private string _path;
 
     public SchemaMemberVisitor(string variable, SchemaWriter writer, SourceProductionContext context)
     {
@@ -25,19 +25,25 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
         var members = symbol.GetMembers();
 
         foreach (var member in members)
+        {
             member.Accept(this);
+        }
     }
 
     public override void VisitProperty(IPropertySymbol symbol)
     {
         if (!symbol.DeclaredAccessibility.HasFlag(Accessibility.Public)
             || !symbol.DeclaredAccessibility.HasFlag(Accessibility.Internal))
+        {
             return;
+        }
 
         var (type, attribute) = symbol.ToRedisProperty();
 
         if (type == RedisPropertyType.Ignore)
+        {
             return;
+        }
 
         var name = symbol.GetRedisName(attribute);
         _path = string.Concat(_path, ".", name);
@@ -71,12 +77,16 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
         var aliasSubPrefix = attribute?.GetNamedArgumentValue<string>(nameof(RedisObjectAttribute.AliasPrefix));
 
         if (!string.IsNullOrEmpty(aliasSubPrefix))
+        {
             _aliasPrefix = string.Concat(_aliasPrefix, aliasSubPrefix);
-        
+        }
+
         symbol.Type.Accept(this);
-        
+
         if (!string.IsNullOrEmpty(aliasSubPrefix))
+        {
             _aliasPrefix = _aliasPrefix.Substring(0, _aliasPrefix.Length - aliasSubPrefix!.Length);
+        }
     }
 
     private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? _)

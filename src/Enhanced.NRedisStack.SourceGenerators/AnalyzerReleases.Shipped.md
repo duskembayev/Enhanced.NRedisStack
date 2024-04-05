@@ -2,9 +2,9 @@
 
 ### New Rules
 
-Rule ID | Category | Severity | Notes                                                           
---------|----------|----------|--------------------
-ENRS0001| Unknown  | Error    | Unexpected Error 
-ENRS0100| Schema   | Error    | Method Not Partial
-ENRS0101| Schema   | Error    | Method Has Parameters
-ENRS0102| Schema   | Error    | Unknown Property Type
+Rule ID | Category | Severity | Notes                 
+--------|----------|----------|-----------------------
+ENRS001 | Unknown  | Error    | Unexpected Error      
+ENRS100 | Schema   | Error    | Method Not Partial    
+ENRS101 | Schema   | Error    | Method Has Parameters 
+ENRS102 | Schema   | Error    | Unknown Property Type 

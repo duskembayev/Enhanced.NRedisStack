@@ -16,49 +16,49 @@ internal partial class SchemaMemberVisitor
                 switch (argument.Key)
                 {
                     case nameof(RedisTagAttribute.Name):
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
                     case nameof(RedisTagAttribute.Alias) when argument.Value.Value is null:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, null);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, null);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.Alias) when argument.Value.Value is string alias:
-                    {
-                        propertyWriter.SetAlias(_aliasPrefix, alias);
-                        break;
-                    }
+                        {
+                            propertyWriter.SetAlias(_aliasPrefix, alias);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.Sortable) when argument.Value.Value is bool sortable:
-                    {
-                        propertyWriter.AddBoolArgument("sortable", sortable);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("sortable", sortable);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.Unf) when argument.Value.Value is bool unf:
-                    {
-                        propertyWriter.AddBoolArgument("unf", unf);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("unf", unf);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.NoIndex) when argument.Value.Value is bool noIndex:
-                    {
-                        propertyWriter.AddBoolArgument("noIndex", noIndex);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("noIndex", noIndex);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.Separator) when argument.Value.Value is string separator:
-                    {
-                        propertyWriter.AddStringArgument("separator", separator);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddStringArgument("separator", separator);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.CaseSensitive) when argument.Value.Value is bool caseSensitive:
-                    {
-                        propertyWriter.AddBoolArgument("caseSensitive", caseSensitive);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("caseSensitive", caseSensitive);
+                            break;
+                        }
                     case nameof(RedisTagAttribute.WithSuffixTrie) when argument.Value.Value is bool withSuffixTrie:
-                    {
-                        propertyWriter.AddBoolArgument("withSuffixTrie", withSuffixTrie);
-                        break;
-                    }
+                        {
+                            propertyWriter.AddBoolArgument("withSuffixTrie", withSuffixTrie);
+                            break;
+                        }
                 }
             }
         }

@@ -13,24 +13,28 @@ public class SchemaGenerator : IIncrementalGenerator
             .Select((t, _) => t.method);
 
         context.RegisterSourceOutput(context.CompilationProvider.Combine(provider.Collect()),
-            ((ctx, t) => GenerateCode(ctx, t.Left, t.Right)));
+            (ctx, t) => GenerateCode(ctx, t.Left, t.Right));
     }
 
     private static (MethodDeclarationSyntax method, bool matches) GetMethodDeclarationForSourceGen(
         GeneratorSyntaxContext context)
     {
-        var methodDeclarationSyntax = (MethodDeclarationSyntax) context.Node;
+        var methodDeclarationSyntax = (MethodDeclarationSyntax)context.Node;
 
-        foreach (AttributeListSyntax attributeListSyntax in methodDeclarationSyntax.AttributeLists)
-        foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
+        foreach (var attributeListSyntax in methodDeclarationSyntax.AttributeLists)
+        foreach (var attributeSyntax in attributeListSyntax.Attributes)
         {
             if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
+            {
                 continue;
+            }
 
             var attributeType = attributeSymbol.ContainingType.ToDisplayString();
 
             if (attributeType != Constants.GeneratedSchemaAttributeFullName)
+            {
                 continue;
+            }
 
             return (methodDeclarationSyntax, true);
         }
@@ -45,7 +49,7 @@ public class SchemaGenerator : IIncrementalGenerator
         foreach (var methodDeclaration in methodDeclarations)
         {
             var semanticModel = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
-            var methodSymbol = (IMethodSymbol?) semanticModel.GetDeclaredSymbol(methodDeclaration);
+            var methodSymbol = (IMethodSymbol?)semanticModel.GetDeclaredSymbol(methodDeclaration);
 
             if (methodSymbol is null)
             {
@@ -54,7 +58,7 @@ public class SchemaGenerator : IIncrementalGenerator
                     "Method symbol is null"));
                 continue;
             }
-            
+
             if (!methodSymbol.IsPartialDefinition)
             {
                 context.ReportDiagnostic(Diagnostics.MethodNotPartial.ToDiagnostic(methodDeclaration.GetLocation()));
@@ -88,7 +92,8 @@ public class SchemaGenerator : IIncrementalGenerator
         }
     }
 
-    private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol, SourceProductionContext context)
+    private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol,
+        SourceProductionContext context)
     {
         using var writer = new SchemaWriter();
 

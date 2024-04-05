@@ -1,24 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <IsPackable>false</IsPackable>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <IsRoslynComponent>true</IsRoslynComponent>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IsRoslynComponent>true</IsRoslynComponent>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
-        <PackageReference Include="System.Text.Json" Version="8.0.3" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
+    <PackageReference Include="System.Text.Json" Version="8.0.3"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Include="..\Enhanced.NRedisStack.Annotation\*.cs" LinkBase="Annotation" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Enhanced.NRedisStack.Annotation\*.cs" LinkBase="Annotation"/>
+  </ItemGroup>
 
 </Project>

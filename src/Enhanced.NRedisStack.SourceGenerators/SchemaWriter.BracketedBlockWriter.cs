@@ -4,8 +4,8 @@ public partial class SchemaWriter
 {
     private class BracketedBlockWriter : IDisposable
     {
-        private readonly IndentedTextWriter _indentedTextWriter;
         private readonly char _close;
+        private readonly IndentedTextWriter _indentedTextWriter;
 
         public BracketedBlockWriter(IndentedTextWriter indentedTextWriter, char open, char close)
         {
@@ -14,9 +14,6 @@ public partial class SchemaWriter
             _indentedTextWriter.Write(open);
         }
 
-        public void Dispose()
-        {
-            _indentedTextWriter.Write(_close);
-        }
+        public void Dispose() => _indentedTextWriter.Write(_close);
     }
 }

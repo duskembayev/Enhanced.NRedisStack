@@ -27,7 +27,9 @@ public partial class SchemaWriter : IDisposable
         _indentedTextWriter.WriteLine();
 
         if (namedType.IsStatic)
+        {
             _indentedTextWriter.Write("static ");
+        }
 
         _indentedTextWriter.WriteLine($"partial class {namedType.Name}");
         return new IndentedSectionWriter(_indentedTextWriter);
@@ -38,26 +40,20 @@ public partial class SchemaWriter : IDisposable
         _indentedTextWriter.Write("public ");
 
         if (method.IsStatic)
+        {
             _indentedTextWriter.Write("static ");
+        }
 
         _indentedTextWriter.WriteLine($"partial Schema {method.Name}()");
         return new IndentedSectionWriter(_indentedTextWriter);
     }
 
-    public IDisposable DeclareBracketedBlock(char open = '(', char close = ')')
-    {
-        return new BracketedBlockWriter(_indentedTextWriter, open, close);
-    }
+    public IDisposable DeclareBracketedBlock(char open = '(', char close = ')') =>
+        new BracketedBlockWriter(_indentedTextWriter, open, close);
 
-    public void Write(string value)
-    {
-        _indentedTextWriter.Write(value);
-    }
+    public void Write(string value) => _indentedTextWriter.Write(value);
 
-    public void WriteLine(string value)
-    {
-        _indentedTextWriter.WriteLine(value);
-    }
+    public void WriteLine(string value) => _indentedTextWriter.WriteLine(value);
 
     public void WriteQuoted(string value)
     {
@@ -66,8 +62,5 @@ public partial class SchemaWriter : IDisposable
         _indentedTextWriter.Write("\"");
     }
 
-    public SourceText ToSourceText()
-    {
-        return SourceText.From(_stringWriter.ToString(), Encoding.UTF8);
-    }
+    public SourceText ToSourceText() => SourceText.From(_stringWriter.ToString(), Encoding.UTF8);
 }

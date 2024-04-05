@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace Enhanced.NRedisStack.SourceGenerators;
 
 [Generator(LanguageNames.CSharp)]
@@ -7,7 +5,6 @@ public class SchemaGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Filter abstract methods annotated with the [SchemaOf] attribute. Only filtered Syntax Nodes can trigger code generation.
         var provider = context.SyntaxProvider
             .CreateSyntaxProvider(
                 (node, _) => node is MethodDeclarationSyntax {AttributeLists.Count: > 0, Modifiers: {Count: > 0}},
@@ -15,7 +12,6 @@ public class SchemaGenerator : IIncrementalGenerator
             .Where(t => t.matches)
             .Select((t, _) => t.method);
 
-        // Generate the source code.
         context.RegisterSourceOutput(context.CompilationProvider.Combine(provider.Collect()),
             ((ctx, t) => GenerateCode(ctx, t.Left, t.Right)));
     }
@@ -42,65 +38,57 @@ public class SchemaGenerator : IIncrementalGenerator
         return (methodDeclarationSyntax, false);
     }
 
-    private void GenerateCode(
+    private static void GenerateCode(
         SourceProductionContext context, Compilation compilation,
         ImmutableArray<MethodDeclarationSyntax> methodDeclarations)
     {
         foreach (var methodDeclaration in methodDeclarations)
         {
             var semanticModel = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
-            var declaredSymbol = semanticModel.GetDeclaredSymbol(methodDeclaration);
+            var methodSymbol = (IMethodSymbol?) semanticModel.GetDeclaredSymbol(methodDeclaration);
 
-            if (declaredSymbol is not IMethodSymbol methodSymbol)
+            if (methodSymbol is null)
             {
-                // Log error
+                context.ReportDiagnostic(Diagnostics.UnexpectedError.ToDiagnostic(
+                    methodDeclaration.GetLocation(),
+                    "Method symbol is null"));
                 continue;
             }
-
+            
             if (!methodSymbol.IsPartialDefinition)
             {
-                // Log error
+                context.ReportDiagnostic(Diagnostics.MethodNotPartial.ToDiagnostic(methodDeclaration.GetLocation()));
                 continue;
             }
 
-            if (methodSymbol.Parameters.Length > 0)
+            if (methodSymbol.Parameters.Length > 0 || methodSymbol.TypeParameters.Length > 0)
             {
-                // Log error
+                context.ReportDiagnostic(Diagnostics.MethodHasParameters.ToDiagnostic(methodDeclaration.GetLocation()));
                 continue;
             }
 
-            if (methodSymbol.TypeParameters.Length > 0)
-            {
-                // Log error
-                continue;
-            }
-
-            var attributeValue = methodSymbol
+            var attribute = methodSymbol
                 .GetAttributes()
-                .First(data => data.AttributeClass?.ToDisplayString() == Constants.GeneratedSchemaAttributeFullName)
-                .ConstructorArguments
-                .First();
+                .First(data => data.AttributeClass?.ToDisplayString() == Constants.GeneratedSchemaAttributeFullName);
 
-            if (attributeValue is not {Kind: TypedConstantKind.Type})
-            {
-                // Log error
-                continue;
-            }
+            var attributeValue = attribute.ConstructorArguments.First();
 
             if (attributeValue.Value is not INamedTypeSymbol modelSymbol)
             {
-                // Log error
+                context.ReportDiagnostic(Diagnostics.UnexpectedError.ToDiagnostic(
+                    methodDeclaration.GetLocation(),
+                    "Attribute value is not a type"));
                 continue;
             }
 
-            var sourceText = GenerateCore(methodSymbol, modelSymbol);
+            var sourceText = GenerateCore(methodSymbol, modelSymbol, context);
             var sourceFileName = $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}.g.cs";
 
             context.AddSource(sourceFileName, sourceText);
         }
     }
 
-    private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol)
+    private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol, SourceProductionContext context)
     {
         using var writer = new SchemaWriter();
 
@@ -108,7 +96,7 @@ public class SchemaGenerator : IIncrementalGenerator
         using (writer.DeclarePartialMethod(methodSymbol))
         {
             writer.WriteLine("Schema schema = new Schema();");
-            modelSymbol.Accept(new SchemaMemberVisitor("schema", writer));
+            modelSymbol.Accept(new SchemaMemberVisitor("schema", writer, context));
             writer.WriteLine("return schema;");
         }
 

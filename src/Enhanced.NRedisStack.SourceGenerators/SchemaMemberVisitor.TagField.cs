@@ -59,12 +59,6 @@ internal partial class SchemaMemberVisitor
                         propertyWriter.AddBoolArgument("withSuffixTrie", withSuffixTrie);
                         break;
                     }
-                    default:
-                    {
-                        // TODO report error
-                        Debug.Fail($"Unknown argument {argument.Key}");
-                        break;
-                    }
                 }
             }
         }

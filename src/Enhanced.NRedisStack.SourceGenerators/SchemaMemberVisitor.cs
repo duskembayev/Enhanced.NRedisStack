@@ -6,13 +6,15 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
 {
     private readonly string _variable;
     private readonly SchemaWriter _writer;
+    private readonly SourceProductionContext _context;
     private string _path;
     private string _aliasPrefix;
 
-    public SchemaMemberVisitor(string variable, SchemaWriter writer)
+    public SchemaMemberVisitor(string variable, SchemaWriter writer, SourceProductionContext context)
     {
         _variable = variable;
         _writer = writer;
+        _context = context;
 
         _path = "$";
         _aliasPrefix = string.Empty;
@@ -77,9 +79,11 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             _aliasPrefix = _aliasPrefix.Substring(0, _aliasPrefix.Length - aliasSubPrefix!.Length);
     }
 
-    private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? attribute)
+    private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? _)
     {
-        // TODO report error
-        Debug.Fail("Unknown property type");
+        var propertyType = symbol.Type.ToDisplayString();
+
+        _context.ReportDiagnostic(Diagnostics.UnknownPropertyType
+            .ToDiagnostic(symbol.Locations.FirstOrDefault(), propertyType));
     }
 }

@@ -1,18 +1,18 @@
 ﻿namespace Enhanced.NRedisStack.Annotation;
 
 /// <summary>
-/// Marks a property as a Redis object containing child set of properties.
+/// Base class containing common properties for any field of a Redis schema.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class RedisObjectAttribute : Attribute
+public abstract class RedisFieldAttribute : Attribute
 {
     /// <summary>
     /// The field's name.
     /// </summary>
     public string? Name { get; set; }
-    
+
     /// <summary>
-    /// The prefix to use for the containing field's alias.
+    /// The field's alias.
     /// </summary>
-    public string? AliasPrefix { get; set; }
+    public string? Alias { get; set; }
 }

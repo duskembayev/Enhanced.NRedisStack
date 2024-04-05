@@ -1,0 +1,62 @@
+#nullable enable
+Enhanced.NRedisStack.Annotation.GeneratedSchemaAttribute
+Enhanced.NRedisStack.Annotation.GeneratedSchemaAttribute.GeneratedSchemaAttribute(System.Type! type) -> void
+Enhanced.NRedisStack.Annotation.GeneratedSchemaAttribute.PropertyNamingPolicy.get -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.GeneratedSchemaAttribute.PropertyNamingPolicy.set -> void
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.CamelCase = 1 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.KebabCaseLower = 4 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.KebabCaseUpper = 5 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.None = 0 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.SnakeCaseLower = 2 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.PropertyNamingPolicy.SnakeCaseUpper = 3 -> Enhanced.NRedisStack.Annotation.PropertyNamingPolicy
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute.Alias.get -> string?
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute.Alias.set -> void
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute.Name.get -> string?
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute.Name.set -> void
+Enhanced.NRedisStack.Annotation.RedisFieldAttribute.RedisFieldAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisIgnoreAttribute
+Enhanced.NRedisStack.Annotation.RedisIgnoreAttribute.RedisIgnoreAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute.NoIndex.get -> bool
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute.NoIndex.set -> void
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute.RedisNumericAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute.Sortable.get -> bool
+Enhanced.NRedisStack.Annotation.RedisNumericAttribute.Sortable.set -> void
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.AliasPrefix.get -> string?
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.AliasPrefix.set -> void
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.Name.get -> string?
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.Name.set -> void
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.RedisObjectAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.CaseSensitive.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.CaseSensitive.set -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.NoIndex.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.NoIndex.set -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.RedisTagAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Separator.get -> string!
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Separator.set -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Sortable.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Sortable.set -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Unf.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.Unf.set -> void
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.WithSuffixTrie.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTagAttribute.WithSuffixTrie.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.NoIndex.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.NoIndex.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.NoStem.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.NoStem.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Phonetic.get -> string?
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Phonetic.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.RedisTextAttribute() -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Sortable.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Sortable.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Unf.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Unf.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Weight.get -> double
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.Weight.set -> void
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.WithSuffixTrie.get -> bool
+Enhanced.NRedisStack.Annotation.RedisTextAttribute.WithSuffixTrie.set -> void

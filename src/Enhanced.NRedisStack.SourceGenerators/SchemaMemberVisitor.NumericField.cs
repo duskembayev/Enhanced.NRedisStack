@@ -39,12 +39,6 @@ internal partial class SchemaMemberVisitor
                         propertyWriter.AddBoolArgument("noIndex", noIndex);
                         break;
                     }
-                    default:
-                    {
-                        // TODO report error
-                        Debug.Fail($"Unknown argument {argument.Key}");
-                        break;
-                    }
                 }
             }
         }

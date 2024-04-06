@@ -1,3 +1,5 @@
+using Enhanced.NRedisStack.Annotation;
+
 namespace Enhanced.NRedisStack.SourceGenerators;
 
 [Generator(LanguageNames.CSharp)]
@@ -53,9 +55,10 @@ public class SchemaGenerator : IIncrementalGenerator
 
             if (methodSymbol is null)
             {
-                context.ReportDiagnostic(Diagnostics.UnexpectedError.ToDiagnostic(
-                    methodDeclaration.GetLocation(),
-                    "Method symbol is null"));
+                context.ReportDiagnostic(
+                    Diagnostics.UnexpectedError.ToDiagnostic(
+                        methodDeclaration.GetLocation(),
+                        "Method symbol is null"));
                 continue;
             }
 
@@ -71,29 +74,31 @@ public class SchemaGenerator : IIncrementalGenerator
                 continue;
             }
 
-            var attribute = methodSymbol
-                .GetAttributes()
-                .First(data => data.AttributeClass?.ToDisplayString() == Constants.GeneratedSchemaAttributeFullName);
+            var attribute = methodSymbol.GetAttribute(Constants.GeneratedSchemaAttributeFullName);
+            var modelSymbol = attribute.GetCtorArgumentValue<INamedTypeSymbol>(0);
+            var namingPolicy = attribute.GetNamedArgumentValue<PropertyNamingPolicy>(
+                nameof(GeneratedSchemaAttribute.PropertyNamingPolicy));
 
-            var attributeValue = attribute.ConstructorArguments.First();
-
-            if (attributeValue.Value is not INamedTypeSymbol modelSymbol)
+            if (modelSymbol is null)
             {
-                context.ReportDiagnostic(Diagnostics.UnexpectedError.ToDiagnostic(
-                    methodDeclaration.GetLocation(),
-                    "Attribute value is not a type"));
+                context.ReportDiagnostic(
+                    Diagnostics.UnexpectedError.ToDiagnostic(
+                        methodDeclaration.GetLocation(),
+                        "Model symbol is null"));
                 continue;
             }
 
-            var sourceText = GenerateCore(methodSymbol, modelSymbol, context);
+            var sourceText = GenerateCore(methodSymbol, modelSymbol, new SchemaContext(context, namingPolicy));
             var sourceFileName = $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}.g.cs";
 
             context.AddSource(sourceFileName, sourceText);
         }
     }
 
-    private static SourceText GenerateCore(IMethodSymbol methodSymbol, INamedTypeSymbol modelSymbol,
-        SourceProductionContext context)
+    private static SourceText GenerateCore(
+        IMethodSymbol methodSymbol,
+        INamedTypeSymbol modelSymbol,
+        SchemaContext context)
     {
         using var writer = new SchemaWriter();
 

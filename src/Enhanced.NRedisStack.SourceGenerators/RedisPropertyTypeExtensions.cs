@@ -1,45 +1,60 @@
-﻿using static Enhanced.NRedisStack.SourceGenerators.Constants;
+﻿using Enhanced.NRedisStack.Annotation;
+using static Enhanced.NRedisStack.SourceGenerators.Constants;
 
 namespace Enhanced.NRedisStack.SourceGenerators;
 
-public static class PropertySymbolExtensions
+public static class RedisPropertyTypeExtensions
 {
-    private static readonly ImmutableHashSet<SpecialType> NumericSpecialTypes = ImmutableHashSet.Create(
+    private static readonly ImmutableHashSet<SpecialType> _numericSpecialTypes = ImmutableHashSet.Create(
         SpecialType.System_Int16, SpecialType.System_Int32, SpecialType.System_Int64,
         SpecialType.System_UInt16, SpecialType.System_UInt32, SpecialType.System_UInt64,
         SpecialType.System_Decimal, SpecialType.System_Single, SpecialType.System_Double,
         SpecialType.System_Byte, SpecialType.System_SByte, SpecialType.System_Enum
     );
 
-    private static readonly ImmutableHashSet<SpecialType> TextSpecialTypes = ImmutableHashSet.Create(
+    private static readonly ImmutableHashSet<SpecialType> _textSpecialTypes = ImmutableHashSet.Create(
         SpecialType.System_String, SpecialType.System_Char, SpecialType.System_DateTime
     );
 
-    private static readonly ImmutableHashSet<SpecialType> TagSpecialTypes = ImmutableHashSet.Create(
+    private static readonly ImmutableHashSet<SpecialType> _tagSpecialTypes = ImmutableHashSet.Create(
         SpecialType.System_Boolean
     );
 
-    public static string GetRedisName(this IPropertySymbol property, AttributeData? attribute)
+    public static RedisPropertyInfo ToRedisProperty(this IPropertySymbol property, SchemaContext context)
     {
-        var name = attribute?.NamedArguments
-            .FirstOrDefault(x => x.Key == "Name")
-            .Value;
+        var (propertyType, attribute) = property.FindRedisProperty(context);
+        var propertyName = property.GetRedisPropertyName(attribute, context);
 
-        if (name?.Value is string redisName && !string.IsNullOrEmpty(redisName))
+        if (propertyType is RedisPropertyType.Unknown)
         {
-            return redisName;
+            propertyType = property.Type.ToRedisType();
         }
 
-        return property.Name;
+        return new RedisPropertyInfo(propertyName, propertyType, attribute);
     }
 
-    public static RedisPropertyInfo ToRedisProperty(this IPropertySymbol property) =>
-        property.GetAttributes().ResolveRedisPropertyFromAttributes()
-        ?? new RedisPropertyInfo(property.Type.ToRedisType(), null);
-
-    private static RedisPropertyInfo? ResolveRedisPropertyFromAttributes(this IEnumerable<AttributeData> attributes)
+    private static string GetRedisPropertyName(
+        this IPropertySymbol property,
+        AttributeData? attribute,
+        SchemaContext context)
     {
+        var value = attribute?.GetNamedArgumentValue<string>(nameof(RedisFieldAttribute.Name));
+
+        if (string.IsNullOrEmpty(value))
+        {
+            value = property.Name;
+        }
+
+        return context.ConvertName(value!);
+    }
+
+    private static (RedisPropertyType, AttributeData?) FindRedisProperty(
+        this IPropertySymbol property,
+        SchemaContext context)
+    {
+        var attributes = property.GetAttributes();
         var resultType = RedisPropertyType.Unknown;
+
         AttributeData? resultAttribute = null;
 
         foreach (var attr in attributes)
@@ -62,17 +77,12 @@ public static class PropertySymbolExtensions
 
             if (resultAttribute is not null)
             {
-                // TODO report error
+                context.ReportDiagnostic(Diagnostics.MultipleRedisAttributes.ToDiagnostic(property.Locations.First()));
                 continue;
             }
 
             resultType = attrRedisType;
             resultAttribute = attr;
-        }
-
-        if (resultAttribute is null)
-        {
-            return null;
         }
 
         return (resultType, resultAttribute);
@@ -85,17 +95,17 @@ public static class PropertySymbolExtensions
             return RedisPropertyType.Object;
         }
 
-        if (NumericSpecialTypes.Contains(type.SpecialType))
+        if (_numericSpecialTypes.Contains(type.SpecialType))
         {
             return RedisPropertyType.Numeric;
         }
 
-        if (TextSpecialTypes.Contains(type.SpecialType))
+        if (_textSpecialTypes.Contains(type.SpecialType))
         {
             return RedisPropertyType.Text;
         }
 
-        if (TagSpecialTypes.Contains(type.SpecialType))
+        if (_tagSpecialTypes.Contains(type.SpecialType))
         {
             return RedisPropertyType.Tag;
         }

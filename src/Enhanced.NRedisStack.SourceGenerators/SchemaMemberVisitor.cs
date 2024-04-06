@@ -4,13 +4,13 @@ namespace Enhanced.NRedisStack.SourceGenerators;
 
 internal partial class SchemaMemberVisitor : SymbolVisitor
 {
-    private readonly SourceProductionContext _context;
+    private readonly SchemaContext _context;
     private readonly string _variable;
     private readonly SchemaWriter _writer;
     private string _aliasPrefix;
     private string _path;
 
-    public SchemaMemberVisitor(string variable, SchemaWriter writer, SourceProductionContext context)
+    public SchemaMemberVisitor(string variable, SchemaWriter writer, SchemaContext context)
     {
         _variable = variable;
         _writer = writer;
@@ -38,38 +38,37 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             return;
         }
 
-        var (type, attribute) = symbol.ToRedisProperty();
+        var redisProperty = symbol.ToRedisProperty(_context);
 
-        if (type == RedisPropertyType.Ignore)
+        if (redisProperty is {Type: RedisPropertyType.Ignore})
         {
             return;
         }
 
-        var name = symbol.GetRedisName(attribute);
-        _path = string.Concat(_path, ".", name);
+        _path = string.Concat(_path, ".", redisProperty.Name);
 
-        switch (type)
+        switch (redisProperty.Type)
         {
             case RedisPropertyType.Unknown:
-                HandleUnknownProperty(symbol, attribute);
+                HandleUnknownProperty(symbol, redisProperty.Attribute);
                 break;
             case RedisPropertyType.Object:
-                HandleObjectProperty(symbol, attribute);
+                HandleObjectProperty(symbol, redisProperty.Attribute);
                 break;
             case RedisPropertyType.Text:
-                HandleTextProperty(symbol, attribute);
+                HandleTextProperty(symbol, redisProperty.Attribute);
                 break;
             case RedisPropertyType.Numeric:
-                HandleNumericProperty(symbol, attribute);
+                HandleNumericProperty(symbol, redisProperty.Attribute);
                 break;
             case RedisPropertyType.Tag:
-                HandleTagProperty(symbol, attribute);
+                HandleTagProperty(symbol, redisProperty.Attribute);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        _path = _path.Substring(0, _path.Length - name.Length - 1);
+        _path = _path.Substring(0, _path.Length - redisProperty.Name.Length - 1);
     }
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)

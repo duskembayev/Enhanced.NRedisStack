@@ -37,6 +37,14 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
+    public static readonly DiagnosticDescriptor MultipleRedisAttributes = new DiagnosticDescriptor(
+        "ENRS103",
+        "Multiple Redis Attributes",
+        "Multiple Redis attributes found on property",
+        "Schema",
+        DiagnosticSeverity.Error,
+        true);
+
     public static Diagnostic ToDiagnostic(this DiagnosticDescriptor descriptor, Location? location,
         params object[] messageArgs) =>
         Diagnostic.Create(descriptor, location, messageArgs);

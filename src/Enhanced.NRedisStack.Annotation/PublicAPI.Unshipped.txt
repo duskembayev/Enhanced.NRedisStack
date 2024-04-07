@@ -25,8 +25,8 @@ Enhanced.NRedisStack.Annotation.RedisNumericAttribute.RedisNumericAttribute() ->
 Enhanced.NRedisStack.Annotation.RedisNumericAttribute.Sortable.get -> bool
 Enhanced.NRedisStack.Annotation.RedisNumericAttribute.Sortable.set -> void
 Enhanced.NRedisStack.Annotation.RedisObjectAttribute
-Enhanced.NRedisStack.Annotation.RedisObjectAttribute.AliasPrefix.get -> string?
-Enhanced.NRedisStack.Annotation.RedisObjectAttribute.AliasPrefix.set -> void
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.CascadeDepth.get -> short
+Enhanced.NRedisStack.Annotation.RedisObjectAttribute.CascadeDepth.set -> void
 Enhanced.NRedisStack.Annotation.RedisObjectAttribute.Name.get -> string?
 Enhanced.NRedisStack.Annotation.RedisObjectAttribute.Name.set -> void
 Enhanced.NRedisStack.Annotation.RedisObjectAttribute.RedisObjectAttribute() -> void

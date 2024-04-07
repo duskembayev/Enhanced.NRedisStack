@@ -28,10 +28,8 @@ public class SearchBenchmark
         }
     }
 
-    [Params(2000, 10000)]
-    public int DataAmount { get; set; }
-    [Params(100, 1000)]
-    public int PageSize { get; set; }
+    [Params(2000, 10000)] public int DataAmount { get; set; }
+    [Params(100, 1000)] public int PageSize { get; set; }
 
     [GlobalSetup(Target = nameof(NRedisStack))]
     public void NRedisStackSetup()
@@ -105,10 +103,9 @@ public class SearchBenchmark
 
         var db = _redis!.GetDatabase();
 
-        for (var index = 0; index < list.Count; index++)
+        foreach (var dto in list)
         {
-            var dto = list[index];
-            db.JSON().Set("dto:" + index, "$", dto);
+            db.JSON().Set("dto:" + dto.Id, "$", dto);
         }
     }
 }

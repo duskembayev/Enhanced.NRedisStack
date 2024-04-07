@@ -7,8 +7,9 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
     private readonly SchemaContext _context;
     private readonly string _variable;
     private readonly SchemaWriter _writer;
-    private string _aliasPrefix;
     private string _path;
+    private int _depthMax;
+    private int _depth;
 
     public SchemaMemberVisitor(string variable, SchemaWriter writer, SchemaContext context)
     {
@@ -17,17 +18,24 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
         _context = context;
 
         _path = "$";
-        _aliasPrefix = string.Empty;
+        _depthMax = 1;
     }
 
     public override void VisitNamedType(INamedTypeSymbol symbol)
     {
-        var members = symbol.GetMembers();
+        _depth++;
 
-        foreach (var member in members)
+        if (_depth <= _depthMax)
         {
-            member.Accept(this);
+            var members = symbol.GetMembers();
+
+            foreach (var member in members)
+            {
+                member.Accept(this);
+            }
         }
+
+        _depth--;
     }
 
     public override void VisitProperty(IPropertySymbol symbol)
@@ -50,7 +58,7 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
         switch (redisProperty.Type)
         {
             case RedisPropertyType.Unknown:
-                HandleUnknownProperty(symbol, redisProperty.Attribute);
+                HandleUnknownProperty(symbol);
                 break;
             case RedisPropertyType.Object:
                 HandleObjectProperty(symbol, redisProperty.Attribute);
@@ -64,6 +72,8 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
             case RedisPropertyType.Tag:
                 HandleTagProperty(symbol, redisProperty.Attribute);
                 break;
+            case RedisPropertyType.Ignore:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -73,22 +83,23 @@ internal partial class SchemaMemberVisitor : SymbolVisitor
 
     private void HandleObjectProperty(IPropertySymbol symbol, AttributeData? attribute)
     {
-        var aliasSubPrefix = attribute?.GetNamedArgumentValue<string>(nameof(RedisObjectAttribute.AliasPrefix));
+        var cascadeDepth = attribute?.GetNamedArgumentValue(nameof(RedisObjectAttribute.CascadeDepth), 1);
 
-        if (!string.IsNullOrEmpty(aliasSubPrefix))
+        if (cascadeDepth is null or < 1)
         {
-            _aliasPrefix = string.Concat(_aliasPrefix, aliasSubPrefix);
+            _context.ReportDiagnostic(
+                Diagnostics.CascadeDepthNotSupported.ToDiagnostic(symbol.Locations.FirstOrDefault()));
+            return;
         }
+
+        _depthMax += cascadeDepth.Value;
 
         symbol.Type.Accept(this);
 
-        if (!string.IsNullOrEmpty(aliasSubPrefix))
-        {
-            _aliasPrefix = _aliasPrefix.Substring(0, _aliasPrefix.Length - aliasSubPrefix!.Length);
-        }
+        _depthMax -= cascadeDepth.Value;
     }
 
-    private void HandleUnknownProperty(IPropertySymbol symbol, AttributeData? _)
+    private void HandleUnknownProperty(IPropertySymbol symbol)
     {
         var propertyType = symbol.Type.ToDisplayString();
 

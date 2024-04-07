@@ -12,7 +12,7 @@ public class RedisObjectAttribute : Attribute
     public string? Name { get; set; }
 
     /// <summary>
-    ///     The prefix to use for the containing field's alias.
+    ///     The depth into the object graph.
     /// </summary>
-    public string? AliasPrefix { get; set; }
+    public short CascadeDepth { get; set; }
 }

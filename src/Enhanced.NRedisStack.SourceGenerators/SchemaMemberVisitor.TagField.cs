@@ -19,14 +19,9 @@ internal partial class SchemaMemberVisitor
                         {
                             break;
                         }
-                    case nameof(RedisTagAttribute.Alias) when argument.Value.Value is null:
-                        {
-                            propertyWriter.SetAlias(_aliasPrefix, null);
-                            break;
-                        }
                     case nameof(RedisTagAttribute.Alias) when argument.Value.Value is string alias:
                         {
-                            propertyWriter.SetAlias(_aliasPrefix, alias);
+                            propertyWriter.SetAlias(alias);
                             break;
                         }
                     case nameof(RedisTagAttribute.Sortable) when argument.Value.Value is bool sortable:

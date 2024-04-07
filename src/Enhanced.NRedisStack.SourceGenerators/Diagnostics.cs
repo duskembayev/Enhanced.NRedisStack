@@ -45,6 +45,14 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
+    public static readonly DiagnosticDescriptor CascadeDepthNotSupported = new DiagnosticDescriptor(
+        "ENRS104",
+        "Cascade Depth Not Supported",
+        "Cascade depth must be greater than or equal to 1",
+        "Schema",
+        DiagnosticSeverity.Error,
+        true);
+
     public static Diagnostic ToDiagnostic(this DiagnosticDescriptor descriptor, Location? location,
         params object[] messageArgs) =>
         Diagnostic.Create(descriptor, location, messageArgs);

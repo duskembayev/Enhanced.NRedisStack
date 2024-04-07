@@ -16,15 +16,14 @@ public class PropertyWriter
         _arguments = new List<(string name, string value)>();
     }
 
-    public void SetAlias(string prefix, string? alias)
+    public void SetAlias(string? alias)
     {
         if (string.IsNullOrEmpty(alias))
         {
-            _alias = null;
             return;
         }
 
-        _alias = prefix + alias;
+        _alias = alias;
     }
 
     public void AddBoolArgument(string name, bool value) => _arguments.Add((name, value ? "true" : "false"));
@@ -49,10 +48,10 @@ public class PropertyWriter
             {
                 writer.WriteQuoted(_path);
 
-                if (!string.IsNullOrEmpty(_alias))
+                if (_alias is not null)
                 {
                     writer.Write(", ");
-                    writer.WriteQuoted(_alias!);
+                    writer.WriteQuoted(_alias);
                 }
             }
 

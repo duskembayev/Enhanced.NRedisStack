@@ -19,14 +19,9 @@ internal partial class SchemaMemberVisitor
                         {
                             break;
                         }
-                    case nameof(RedisTextAttribute.Alias) when argument.Value.Value is null:
-                        {
-                            propertyWriter.SetAlias(_aliasPrefix, null);
-                            break;
-                        }
                     case nameof(RedisTextAttribute.Alias) when argument.Value.Value is string alias:
                         {
-                            propertyWriter.SetAlias(_aliasPrefix, alias);
+                            propertyWriter.SetAlias(alias);
                             break;
                         }
                     case nameof(RedisTextAttribute.Weight) when argument.Value.Value is double weight:

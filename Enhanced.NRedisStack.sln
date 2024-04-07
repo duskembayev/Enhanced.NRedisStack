@@ -6,13 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enhanced.NRedisStack.Source
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{92888475-5767-4E4F-BFDB-943DE55E856C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{96A58DE9-2519-4CDC-9092-6EFB8823F46E}"
-	ProjectSection(SolutionItems) = preProject
-		samples\Directory.Build.props = samples\Directory.Build.props
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaForPlainJson", "samples\SchemaForPlainJson\SchemaForPlainJson.csproj", "{32B1FEBD-D054-42DC-8823-B5118E4F2159}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enhanced.NRedisStack.Tests", "tests\Enhanced.NRedisStack.Tests\Enhanced.NRedisStack.Tests.csproj", "{FD09B3B5-FC17-4F6D-8742-839A34BAFB44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enhanced.NRedisStack.Annotation", "src\Enhanced.NRedisStack.Annotation\Enhanced.NRedisStack.Annotation.csproj", "{242A4A1C-7EB1-4A38-9BB9-3123BBE8EFA3}"
@@ -25,6 +18,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRedisStack-vs-RedisOM", "benchmarks\NRedisStack-vs-RedisOM\NRedisStack-vs-RedisOM.csproj", "{C4EBAA53-6FCA-476E-A5E3-2F016297B094}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{3323BE38-08F3-4CCA-849A-D73F605CB960}"
+	ProjectSection(SolutionItems) = preProject
+		examples\Directory.Build.props = examples\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleModel", "examples\SimpleModel\SimpleModel.csproj", "{6840F592-B296-449E-9DFA-4A6324943CD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +35,6 @@ Global
 		{886709C4-D547-4F6A-9342-B9EC119B044C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{886709C4-D547-4F6A-9342-B9EC119B044C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{886709C4-D547-4F6A-9342-B9EC119B044C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32B1FEBD-D054-42DC-8823-B5118E4F2159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32B1FEBD-D054-42DC-8823-B5118E4F2159}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32B1FEBD-D054-42DC-8823-B5118E4F2159}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32B1FEBD-D054-42DC-8823-B5118E4F2159}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD09B3B5-FC17-4F6D-8742-839A34BAFB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD09B3B5-FC17-4F6D-8742-839A34BAFB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD09B3B5-FC17-4F6D-8742-839A34BAFB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,12 +47,16 @@ Global
 		{C4EBAA53-6FCA-476E-A5E3-2F016297B094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4EBAA53-6FCA-476E-A5E3-2F016297B094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4EBAA53-6FCA-476E-A5E3-2F016297B094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6840F592-B296-449E-9DFA-4A6324943CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6840F592-B296-449E-9DFA-4A6324943CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6840F592-B296-449E-9DFA-4A6324943CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6840F592-B296-449E-9DFA-4A6324943CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{886709C4-D547-4F6A-9342-B9EC119B044C} = {2C80A88C-BA9B-4360-A64A-5BBD733E69A0}
-		{32B1FEBD-D054-42DC-8823-B5118E4F2159} = {96A58DE9-2519-4CDC-9092-6EFB8823F46E}
 		{FD09B3B5-FC17-4F6D-8742-839A34BAFB44} = {92888475-5767-4E4F-BFDB-943DE55E856C}
 		{242A4A1C-7EB1-4A38-9BB9-3123BBE8EFA3} = {2C80A88C-BA9B-4360-A64A-5BBD733E69A0}
 		{C4EBAA53-6FCA-476E-A5E3-2F016297B094} = {C8FCCE33-9243-43DE-8772-AAD72BF19333}
+		{6840F592-B296-449E-9DFA-4A6324943CD8} = {3323BE38-08F3-4CCA-849A-D73F605CB960}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿namespace SchemaForPlainJson;
+﻿namespace SimpleModel;
 
 public class Account
 {

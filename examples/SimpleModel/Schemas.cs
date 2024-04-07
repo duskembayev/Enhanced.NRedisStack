@@ -1,7 +1,7 @@
 ﻿using Enhanced.NRedisStack.Annotation;
 using NRedisStack.Search;
 
-namespace SchemaForPlainJson;
+namespace SimpleModel;
 
 public static partial class Schemas
 {

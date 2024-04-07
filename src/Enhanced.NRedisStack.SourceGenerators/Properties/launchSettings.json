@@ -1,9 +1,9 @@
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "DebugRoslynSourceGenerator": {
+    "SimpleModel": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "../../samples/SchemaForPlainJson/SchemaForPlainJson.csproj"
+      "targetProject": "../../examples/SimpleModel/SimpleModel.csproj"
     }
   }
 }

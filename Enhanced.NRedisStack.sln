@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enhanced.NRedisStack.Annotation", "src\Enhanced.NRedisStack.Annotation\Enhanced.NRedisStack.Annotation.csproj", "{242A4A1C-7EB1-4A38-9BB9-3123BBE8EFA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{C8FCCE33-9243-43DE-8772-AAD72BF19333}"
+	ProjectSection(SolutionItems) = preProject
+		benchmarks\Directory.Build.props = benchmarks\Directory.Build.props
+		benchmarks\NRedisStack-vs-RedisOM.md = benchmarks\NRedisStack-vs-RedisOM.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRedisStack-vs-RedisOM", "benchmarks\NRedisStack-vs-RedisOM\NRedisStack-vs-RedisOM.csproj", "{C4EBAA53-6FCA-476E-A5E3-2F016297B094}"
 EndProject
